@@ -1,11 +1,7 @@
 import React from "react";
 import { StyleSheet, TextInput, SafeAreaView, View, Keyboard, TouchableOpacity } from "react-native";
-
 import { useContext } from 'react';
 import { FontAwesome, MaterialIcons, Ionicons } from '@expo/vector-icons';
-
-import SCText from '@components/SCText';
-import { ThemeContext } from '@theme';
 
 /**
 * @param {boolean} clicked t or f (defaults -> f)
@@ -14,17 +10,14 @@ import { ThemeContext } from '@theme';
 * @param {boolean} setClicked - sets state of search bar based on clicked boolean
 */
 const SearchBar = ({clicked, searchPhrase, setSearchPhrase, setClicked}) => {
-    const theme = useContext(ThemeContext);
     return (
-        <SafeAreaView style={styles(theme).container}>
-            <View 
-                style={ styles(theme).bar_clicked }
-            >
+        <SafeAreaView style={styles.container}>
+            <View style={ styles.bar_clicked }>
                 { /* getting a search icon from FontAwesome */ }
-                <FontAwesome name="search" size={24} color={theme.colors.primary} />
+                <FontAwesome name="search" size={24}/>
                 {/* Input field */}
                 <TextInput  
-                    style={styles(theme).input}
+                    style={styles.input}
                     placeholder="What was your favorite song from the set?"
                     value={searchPhrase}
                     onChangeText={setSearchPhrase}
@@ -35,7 +28,6 @@ const SearchBar = ({clicked, searchPhrase, setSearchPhrase, setClicked}) => {
                     <Ionicons 
                         name="close-circle-sharp"
                         size={24} 
-                        color={theme.colors.primary} 
                         style={{ padding : 1 }}
                         onPress={() => {setSearchPhrase(" ")} }
                     />
@@ -51,7 +43,7 @@ const SearchBar = ({clicked, searchPhrase, setSearchPhrase, setClicked}) => {
                             setClicked(false);
                         }}    
                     >
-                    <MaterialIcons name="clear" size={24} color={theme.colors.primary} />        
+                    <MaterialIcons name="clear" size={24} />        
                     </TouchableOpacity>
                 </View>
             )}
@@ -60,7 +52,7 @@ const SearchBar = ({clicked, searchPhrase, setSearchPhrase, setClicked}) => {
 };
 export default SearchBar;
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         top: 20,
         backgroundColor: '#2F2F2F',
@@ -77,7 +69,7 @@ const styles = theme => StyleSheet.create({
         flexDirection: "row",
     },
     subtitle: {
-        marginTop: theme.spacing.m
+  
     },
     logo: {
         top: 95,
@@ -90,7 +82,7 @@ const styles = theme => StyleSheet.create({
         padding: 10,
         flexDirection: "row",
         width: "80%",
-        backgroundColor: theme.colors.secondary,
+
         borderRadius: 15,
         alignItems: "flex-start",
         justifyContent: "space-evenly"
@@ -99,7 +91,7 @@ const styles = theme => StyleSheet.create({
         padding: 10,
         flexDirection: "row",
         width: "95%",
-        backgroundColor: theme.colors.secondary,
+
         borderRadius: 15,
         alignItems: "center"
     },

@@ -7,19 +7,14 @@
 
 import { StyleSheet, FlatList, Text, View, SafeAreaView, ActivityIndicator, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import { useContext, useState, useEffect } from 'react';
-
-
-import SCText from '@components/SCText';
 import SearchBar from '@components/SearchBar';
 import Filter from '@components/SearchFilter';
 import Header from '@assets/songSearchHeader.png';
-
 import BG from '@assets/staticjpg.png';
 import spotify from '@assets/spotifyIcon.png';
-import { ThemeContext } from '@theme';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios'
-import { discovery } from 'expo-auth-session/build/providers/Google';
+//import { discovery } from 'expo-auth-session/build/providers/Google';
 
 const getSpotifyCredentials = async () => {
   const res = await axios.get('/pages/SongSearch')
@@ -34,35 +29,32 @@ the ugc-image-upload scope allows us to add playlist images for albums when we s
 */
 const myScopes = ['ugc-image-upload', 'user-read-private']; 
 const Item = ({ song_name, artist_name }) => {
-    const theme = useContext(ThemeContext);
+
     return (
-        <View style = {styles(theme).item}>
-            <View style={styles(theme).album_cov}>
+        <View style = {styles.item}>
+            <View style={styles.album_cov}>
                 {/*the image go here*/}
-                <Image source={require('@assets/orion.png')} style={styles(theme).album} />
+                <Image source={require('@assets/orion.png')} style={styles.album} />
             </View>
-            <View style={styles(theme).song_details}>
+            <View style={styles.song_details}>
                 {/*song name album stuff*/}
-                <View style={styles(theme).song_name_container}>
-                    <SCText style={styles(theme).song_name}>
+                <View style={styles.song_name_container}>
+                    <Text style={styles.song_name}>
                         {song_name}
-                    </SCText> 
+                    </Text> 
                     <Ionicons name="ellipsis-vertical" size={24} color="white" />
                 </View>    
-                <SCText style={styles(theme).artist_name}>
+                <Text style={styles.artist_name}>
                     {artist_name}
-                </SCText>
+                </Text>
             </View>
            {/* <Image source={require('@assets/spotifyIcon.png')} style={styles(theme).spotify_icon} /> */}
-  
-
         </View>
     );
 };
 
 const SongSearch = () => {
 
-    const theme = useContext(ThemeContext);
     // see included components
     const [searchPhrase, setSearchPhrase] = useState("");
     const [clicked, setClicked] = useState(false);
@@ -83,7 +75,7 @@ const SongSearch = () => {
 
     // can search song name or artist name to select data
     const Filter = ( { searchPhrase, setClicked, data }) => {
-        const theme = useContext(ThemeContext);
+
         const renderItem = ( { item }) => {
             // show songs when no search bar data inputted
             // TODO: the songs shown would be from the artist the user went to see
@@ -109,7 +101,7 @@ const SongSearch = () => {
         return (
             <ImageBackground 
                 source={BG}
-                style={styles(theme).botcontainer}
+                style={styles.botcontainer}
             >
                 <View
                     // close the search bar keyboard if not using it
@@ -129,10 +121,10 @@ const SongSearch = () => {
   return (
     <ImageBackground 
         source={BG}
-        style={styles(theme).container}>
+        style={styles.container}>
         <ImageBackground 
             source={Header}
-            style={styles(theme).subcontainer}>
+            style={styles.subcontainer}>
             <SearchBar
             searchPhrase={searchPhrase}
             setSearchPhrase={setSearchPhrase}
@@ -155,7 +147,7 @@ const SongSearch = () => {
 export default SongSearch;
 
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#111111',
@@ -204,14 +196,13 @@ const styles = theme => StyleSheet.create({
         justifyContent: 'space-between',
     },
     song_name: {
-        m : theme.textVariants.m,
+  
         marginBottom: 5,
-        color: theme.colors.primary
+  
     },
     artist_name: {
         flex: 1,
-        s : theme.textVariants.s,
-        color: theme.colors.tertiary
+  
     },
     spotify_icon: {
         width: 20, 
