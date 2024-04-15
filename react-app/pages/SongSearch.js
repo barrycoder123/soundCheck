@@ -8,6 +8,7 @@
 import { StyleSheet, FlatList, Text, View, SafeAreaView, ActivityIndicator, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import { useContext, useState, useEffect } from 'react';
 
+
 import SCText from '@components/SCText';
 import SearchBar from '@components/SearchBar';
 import Filter from '@components/SearchFilter';
@@ -16,20 +17,45 @@ import Header from '@assets/songSearchHeader.png';
 import BG from '@assets/staticjpg.png';
 import spotify from '@assets/spotifyIcon.png';
 import { ThemeContext } from '@theme';
+import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios'
+import { discovery } from 'expo-auth-session/build/providers/Google';
 
+const getSpotifyCredentials = async () => {
+  const res = await axios.get('/pages/SongSearch')
+  const spotifyCredentials = res.data
+  return spotifyCredentials
+}
+
+/* user-read-private scope gives us access to the search for item endpoint which 
+allows us to search for tracks and artists
+the ugc-image-upload scope allows us to add playlist images for albums when we search a song
+
+*/
+const myScopes = ['ugc-image-upload', 'user-read-private']; 
 const Item = ({ song_name, artist_name }) => {
     const theme = useContext(ThemeContext);
     return (
         <View style = {styles(theme).item}>
-            <SCText style={styles(theme).song_name}>
-                {song_name}
-            </SCText>
-            <View style={{flexDirection: 'row'}}>
-                <Image source={require('@assets/spotifyIcon.png')} />
+            <View style={styles(theme).album_cov}>
+                {/*the image go here*/}
+                <Image source={require('@assets/orion.png')} style={styles(theme).album} />
+            </View>
+            <View style={styles(theme).song_details}>
+                {/*song name album stuff*/}
+                <View style={styles(theme).song_name_container}>
+                    <SCText style={styles(theme).song_name}>
+                        {song_name}
+                    </SCText> 
+                    <Ionicons name="ellipsis-vertical" size={24} color="white" />
+                </View>    
                 <SCText style={styles(theme).artist_name}>
                     {artist_name}
                 </SCText>
             </View>
+           {/* <Image source={require('@assets/spotifyIcon.png')} style={styles(theme).spotify_icon} /> */}
+  
+
         </View>
     );
 };
@@ -62,21 +88,18 @@ const SongSearch = () => {
             // show songs when no search bar data inputted
             // TODO: the songs shown would be from the artist the user went to see
             if (searchPhrase === "") {
-                return <Item 
-                        song_name={item.song_name} 
-                        artist_name={item.artist_name}
-                        />
+                return(null);
             }
             // song name filter
             // j convert everything to uppercase remove blank spaces 
-            if (item.song_name.toUpperCase().includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))) {
+            else if (item.song_name.toUpperCase().includes(searchPhrase.toUpperCase().trim())) {
                 return <Item 
                             song_name={item.song_name} 
                             artist_name={item.artist_name} 
                         />
             }
             // artist name filter
-            if (item.artist_name.toUpperCase().includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))) {
+            else if (item.artist_name.toUpperCase().includes(searchPhrase.toUpperCase().trim())) {
                 return <Item 
                             song_name={item.song_name} 
                             artist_name={item.artist_name} 
@@ -157,10 +180,28 @@ const styles = theme => StyleSheet.create({
         justifyContent: 'flex-start'
     },
     item: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         margin: 30,
-        borderBottomWidth: 2,
-        borderBottomColor: theme.colors.quadernary,
-        backgroundColor: '#111111',
+    },
+    album_cov: {
+        flex: 1,
+        marginRight: 5,
+    },
+    album: {
+        width: 60,
+        height: 60
+    },
+    song_details: {
+        flexDirection: 'column',
+        flex: 5,
+    },
+    song_name_container: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
     },
     song_name: {
         m : theme.textVariants.m,
@@ -168,8 +209,14 @@ const styles = theme => StyleSheet.create({
         color: theme.colors.primary
     },
     artist_name: {
-        flexDirection: 'row',
+        flex: 1,
         s : theme.textVariants.s,
         color: theme.colors.tertiary
+    },
+    spotify_icon: {
+        width: 20, 
+        height: 20, 
+        resizeMode: 'contain',
+        marginRight: 5 
     }
 });    
