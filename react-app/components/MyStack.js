@@ -10,17 +10,16 @@ const MyStack = () => {
         <Stack.Navigator>
             <Stack.Group>
                 <Stack.Screen
+                    name="song_search"
+                    component={SongSearch}
+                    options={{title: 'What was your favorite song?'}}
+                />
+                <Stack.Screen
                     name="Home"
                     component={Home}
                     options = {{
                         headerShown:false,
-
                     }}
-                />
-                <Stack.Screen
-                    name="song_search"
-                    component={SongSearch}
-                    options={{title: 'What was your favorite song?'}}
                 />
             </Stack.Group>
         </Stack.Navigator>

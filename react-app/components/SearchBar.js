@@ -14,7 +14,7 @@ const SearchBar = ({clicked, searchPhrase, setSearchPhrase, setClicked}) => {
         <SafeAreaView style={styles.container}>
             <View style={ styles.bar_clicked }>
                 { /* getting a search icon from FontAwesome */ }
-                <FontAwesome name="search" size={24}/>
+                <FontAwesome name="search" size={24} color='white'/>
                 {/* Input field */}
                 <TextInput  
                     style={styles.input}
@@ -28,6 +28,7 @@ const SearchBar = ({clicked, searchPhrase, setSearchPhrase, setClicked}) => {
                     <Ionicons 
                         name="close-circle-sharp"
                         size={24} 
+                        color='white'
                         style={{ padding : 1 }}
                         onPress={() => {setSearchPhrase(" ")} }
                     />
@@ -43,7 +44,7 @@ const SearchBar = ({clicked, searchPhrase, setSearchPhrase, setClicked}) => {
                             setClicked(false);
                         }}    
                     >
-                    <MaterialIcons name="clear" size={24} />        
+                    <MaterialIcons name="clear" size={24} color='white'/>        
                     </TouchableOpacity>
                 </View>
             )}
@@ -55,7 +56,7 @@ export default SearchBar;
 const styles = StyleSheet.create({
     container: {
         top: 20,
-        backgroundColor: '#2F2F2F',
+        //backgroundColor: 'darkgrey',
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: "row",
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
         padding: 10,
         flexDirection: "row",
         width: "80%",
-
+        backgroundColor: '#979797',
         borderRadius: 15,
         alignItems: "flex-start",
         justifyContent: "space-evenly"
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
         padding: 10,
         flexDirection: "row",
         width: "95%",
-
+        backgroundColor: "lightgrey", 
         borderRadius: 15,
         alignItems: "center"
     },

@@ -64,21 +64,23 @@ export default Filter;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
+        backgroundColor: 'black',
         alignItems: 'center',
         justifyContent: 'flex-end',
     },
     item: {
         margin: 30,
         borderBottomWidth: 2,
+        backgroundColor: 'black'
 
     },
     song_name: {
- 
+        color: 'white',
         marginBottom: 5,
 
     },
     artist_name: {
+        color: 'white'
 
     }
 });

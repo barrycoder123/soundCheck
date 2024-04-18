@@ -150,7 +150,7 @@ export default SongSearch;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#111111',
+        //backgroundColor: '#111111',
         justifyContent: 'flex-start',
         flexDirection: 'column'
     },
@@ -176,10 +176,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         margin: 30,
+        //backgroundColor: "#111111"
     },
     album_cov: {
         flex: 1,
-        marginRight: 5,
+        marginRight: 5
     },
     album: {
         width: 60,
@@ -187,22 +188,28 @@ const styles = StyleSheet.create({
     },
     song_details: {
         flexDirection: 'column',
-        flex: 5,
+        flex: 5
     },
     song_name_container: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'space-between'
     },
     song_name: {
-  
-        marginBottom: 5,
+        color: "#EFEFEF",
+        fontsize: 12,
+        fontWeight: 400,
+        lineHeight: 43.5,
+        marginBottom: 5
   
     },
     artist_name: {
         flex: 1,
-  
+        fontsize: 12,
+        fontWeight: 400,
+        lineHeight: 43.5,
+        color: '#696969'
     },
     spotify_icon: {
         width: 20, 
