@@ -12,7 +12,10 @@ const MyStack = () => {
                 <Stack.Screen
                     name="song_search"
                     component={SongSearch}
-                    options={{title: 'What was your favorite song?'}}
+                    options={
+                        {title: 'What was your favorite song?', 
+                        headerShown:false}
+                    }
                 />
                 <Stack.Screen
                     name="Home"
