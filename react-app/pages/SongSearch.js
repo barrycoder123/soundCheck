@@ -1,8 +1,11 @@
 /**
 * @file SongSearch.js
 * @description song search page for SoundCheck using spotify api and search bar
-* @author Ibrahima Barry
-* @todo have the user preview (i.e listen to a portion) of songs
+* @author Ibrahima Barry, Ngawang Rinchen
+* @todo:
+    have the user preview (i.e listen to a portion) of songs
+    get songs from spotify api
+    make search bar icon lower on the screen
 */
 
 import { StyleSheet, FlatList, Text, View, SafeAreaView, ActivityIndicator, ImageBackground, Image, TouchableOpacity } from 'react-native';
@@ -16,10 +19,13 @@ import { Ionicons } from '@expo/vector-icons';
 const SongSearch = () => {
     // see included components
     const [searchPhrase, setSearchPhrase] = useState("");
+    my_placeHolder = "What was your favorite song from the set?";
     //const [clicked, setClicked] = useState(false);
     const [OrionSun, setOrionSun] = useState();
 
     // this is toy data of orion sun songs and one other artist to test searching
+    // this is toy data so i know im getting good data all the time but for future
+    // use a try catch block here 
     useEffect(() => {
         const getData = async () => {
             const apiResponse = await fetch (
@@ -29,7 +35,8 @@ const SongSearch = () => {
             setOrionSun(data);
         };
         getData();
-        }, []
+        }, [] 
+        // maybe do [searchPhrase] in order to guarantee effect whenever value changes
     );
     return (
     <>
@@ -37,6 +44,7 @@ const SongSearch = () => {
             <SearchBar
             searchPhrase={searchPhrase}
             setSearchPhrase={setSearchPhrase}
+            placeHolder = {my_placeHolder}
             //clicked={clicked}
             //setClicked={setClicked}
             />
@@ -104,6 +112,7 @@ const Item = ({ song_name, artist_name }) => {
     return (
         <View style = {styles.item}>
             <View style={styles.album_cov}>
+                {/*later this picture should be for the specific item i.e item.album_cov */}
                 <Image source={require('@assets/orion.png')} style={styles.album} />
             </View>
             <View style={styles.song_details}>
@@ -127,11 +136,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         backgroundColor: '#2F2F2F',
+        paddingTop: 20 
     },
     results: {
         flex: 9,
         alignItems: 'stretch',
         backgroundColor: '#111111',
+        width: "100%",
+        height: "100%"
 
     },
     item: {

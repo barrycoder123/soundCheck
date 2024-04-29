@@ -8,7 +8,7 @@ import { FontAwesome} from '@expo/vector-icons';
 * @param {string} setSearchPhrase - function to update the state used for hook in songSearch page
 */
 
-const SearchBar = ({searchPhrase, setSearchPhrase}) => {
+const SearchBar = ({searchPhrase, setSearchPhrase, placeHolder}) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.iconContainer}>
@@ -17,7 +17,7 @@ const SearchBar = ({searchPhrase, setSearchPhrase}) => {
             <View style={styles.textContainer}>
                 <TextInput  
                     style={styles.input}
-                    placeholder="What was your favorite song from the set?"
+                    placeholder={placeHolder}
                     value={searchPhrase}
                     onChangeText={setSearchPhrase}
                 />
