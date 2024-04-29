@@ -8,13 +8,11 @@
     make search bar icon lower on the screen
 */
 
-import { StyleSheet, FlatList, Text, View, SafeAreaView, ActivityIndicator, ImageBackground, Image, TouchableOpacity } from 'react-native';
-import { useContext, useState, useEffect } from 'react';
+import { StyleSheet, FlatList, Text, View, ImageBackground, Image } from 'react-native';
+import { useState, useEffect } from 'react';
 import SearchBar from '@components/SearchBar';
 import Header from '@assets/songSearchHeader.png';
 import bg from '@assets/staticjpg.png';
-import spotify from '@assets/spotifyIcon.png';
-import { Ionicons } from '@expo/vector-icons';
 
 const CitySearch = () => {
     // see included components
@@ -22,9 +20,7 @@ const CitySearch = () => {
     my_placeHolder = "Nearest city name";
     const [cityData, setCityData] = useState();
     // RAPID API: API key and host name
-    //'https://andruxnet-world-cities-v1.p.rapidapi.com/?searchby=city'
     const url = `https://andruxnet-world-cities-v1.p.rapidapi.com/?query=${searchPhrase}&searchby=city`;
-    //'https://andruxnet-world-cities-v1.p.rapidapi.com/?query=boston&searchby=city';
     const options = {
         method: 'GET',
         headers: {
@@ -33,7 +29,6 @@ const CitySearch = () => {
         }
       };
 
-    // this is toy data of orion sun songs and one other artist to test searching
     useEffect(() => {
         const getData = async () => {
             try{
@@ -85,11 +80,11 @@ const Filter = ( { searchPhrase, data }) => {
                         state_name={item.state} 
                     />
         }
-        // artist name filter
+        // state name filter
         else if (item.state.toUpperCase().includes(searchPhrase.toUpperCase().trim())) {
             return <Item 
-                        song_name={item.city} 
-                        artist_name={item.state} 
+                        city_name={item.city} 
+                        state_name={item.state} 
                     />
         }
     };
@@ -106,13 +101,6 @@ const Filter = ( { searchPhrase, data }) => {
     );
 };
 
-
-/* user-read-private scope gives us access to the search for item endpoint which 
-allows us to search for tracks and artists
-the ugc-image-upload scope allows us to add playlist images for albums when we search a song
-*/
-
-const myScopes = ['ugc-image-upload', 'user-read-private']; 
 const Item = ({ city_name, state_name }) => {
     return (
         <View style={styles.item}>
@@ -166,7 +154,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        //justifyContent: 'flex-end'
+        justifyContent: 'space between'
     },
     city_name: {
         color: "#EFEFEF",
