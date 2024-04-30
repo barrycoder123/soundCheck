@@ -11,6 +11,13 @@ const MyStack = () => {
         <Stack.Navigator>
             <Stack.Group>
                 <Stack.Screen
+                    name="Home"
+                    component={Home}
+                    options = {{
+                        headerShown:false,
+                    }}
+                />
+                <Stack.Screen
                     name="city_search"
                     component={CitySearch}
                     options = {{
@@ -25,13 +32,7 @@ const MyStack = () => {
                         headerShown:false}
                     }
                 />
-                <Stack.Screen
-                    name="Home"
-                    component={Home}
-                    options = {{
-                        headerShown:false,
-                    }}
-                />
+
             </Stack.Group>
         </Stack.Navigator>
     );

@@ -10,11 +10,46 @@ import { StyleSheet, View, ImageBackground, Image, TouchableOpacity,Button, Text
 import { FontAwesome } from '@expo/vector-icons';
 import BG from '@assets/login-bg.png';
 import { useNavigation } from '@react-navigation/native';
-import React, { useContext } from 'react'
+import * as WebBrowser from 'expo-web-browser';
+import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 import GS from '../styles/GlobalStyle';
+
+// Spot API Endpoint
+
+WebBrowser.maybeCompleteAuthSession();
+const discovery = {
+    authorizationEndpoint: 'https://accounts.spotify.com/authorize',
+    tokenEndpoint: 'https://accounts.spotify.com/api/token',
+  };
 
 const Home = () => {
     const navigation = useNavigation();
+    // TODO: ad oauth response block for spotify 
+    // add useEffect 
+    const [request, response, promptAsync] = useAuthRequest(
+        {
+          clientId: 'e592c211f1134591b5ad8674eaadbe0d',
+          scopes: ['user-read-email', 'playlist-modify-public', 
+                   'playlist-modify-private', 'playlist-modify-public',
+                   'user-follow-read', 'user-library-read',
+                    'user-top-read'],
+          // To follow the "Authorization Code Flow" to fetch token after authorizationEndpoint
+          // this must be set to false
+          usePKCE: false,
+          redirectUri: makeRedirectUri({path: 'http://localhost:8081'}),
+        },
+        discovery
+    );
+
+    useEffect(() => {
+        if (response?.type === 'success') {
+            console.log(response);
+          const { code } = response.params;
+        }
+      }, [response]);
+
     return (
         <ImageBackground source={BG} style={styles.homeBG}>
             <Image source={require('@assets/logo.png')} style={styles.homeLogo}/>
@@ -26,12 +61,20 @@ const Home = () => {
                         Testing, testing — is this thing on?
                 </Text>
             </View>
-            <TouchableOpacity style={styles.homeLoginButton}>
+            <TouchableOpacity 
+                style={styles.homeLoginButton}
+                disabled={!request}
+                //title="Login"
+                onPress={() => {
+                  promptAsync();
+                }}
+            >
                 <FontAwesome name="spotify" size={34} color="white"/>       
                 <Text style={styles.homeLoginButtonText}>
                     Login with Spotify
                 </Text>
             </TouchableOpacity>
+           
         </ImageBackground>
     );
 }
