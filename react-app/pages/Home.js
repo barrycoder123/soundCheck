@@ -9,7 +9,6 @@
 import { StyleSheet, View, ImageBackground, Image, TouchableOpacity,Button, Text, Dimensions} from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import BG from '@assets/login-bg.png';
-import { useNavigation } from '@react-navigation/native';
 import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
 import * as React from 'react';
@@ -19,33 +18,33 @@ import GS from '../styles/GlobalStyle';
 // Spot API Endpoint
 
 WebBrowser.maybeCompleteAuthSession();
+
+let authCode = null;
+
 const discovery = {
     authorizationEndpoint: 'https://accounts.spotify.com/authorize',
     tokenEndpoint: 'https://accounts.spotify.com/api/token',
-  };
+};
 
-const Home = () => {
-    const navigation = useNavigation();
-    // TODO: ad oauth response block for spotify 
-    // add useEffect 
+const Home = ({navigation}) => {
+
     const [request, response, promptAsync] = useAuthRequest(
         {
-          clientId: 'e592c211f1134591b5ad8674eaadbe0d',
+          clientId: '6cd186c8e7224c6ba402b7321d53b384',
           scopes: ['user-read-email', 'playlist-modify-public', 
                    'playlist-modify-private', 'playlist-modify-public',
                    'user-follow-read', 'user-library-read',
                     'user-top-read'],
-          // To follow the "Authorization Code Flow" to fetch token after authorizationEndpoint
-          // this must be set to false
           usePKCE: false,
-          redirectUri: makeRedirectUri({path: 'http://localhost:8081'}),
-        },
-        discovery
-    );
+          //undefined = use scheme in app.json
+          redirectUri: makeRedirectUri({}),
+        }, discovery);
 
     useEffect(() => {
         if (response?.type === 'success') {
-            console.log(response);
+            authCode = response.params.code;
+            console.log(authCode);
+            navigation.navigate("song_search");
           const { code } = response.params;
         }
       }, [response]);
