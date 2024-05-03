@@ -44,7 +44,7 @@ const Home = ({navigation}) => {
         if (response?.type === 'success') {
             authCode = response.params.code;
             console.log(authCode);
-            navigation.navigate("song_search");
+            navigation.navigate("TabNavigation",{screen:"song_search"});
           const { code } = response.params;
         }
       }, [response]);
