@@ -1,7 +1,7 @@
 /**
 * @file Login.js
 * @description Login page for SoundCheck
-* @author Ben Skinner
+* @author Ngawang Rinchen
 * @todo The background image is not loading fast enough, I'm sure there's a way
 *           to optimize the load speed 
 */
@@ -13,7 +13,8 @@ import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import GS from '../styles/GlobalStyle';
+import base64 from 'react-native-base64'
+
 
 // Spot API Endpoint
 
@@ -31,6 +32,7 @@ const Home = ({navigation}) => {
     const [request, response, promptAsync] = useAuthRequest(
         {
           clientId: '6cd186c8e7224c6ba402b7321d53b384',
+          clientSecret: '5c048ee0c2f2420486abcc622d76d820',
           scopes: ['user-read-email', 'playlist-modify-public', 
                    'playlist-modify-private', 'playlist-modify-public',
                    'user-follow-read', 'user-library-read',
@@ -44,10 +46,35 @@ const Home = ({navigation}) => {
         if (response?.type === 'success') {
             authCode = response.params.code;
             console.log(authCode);
+            const options = {
+                method: 'POST',
+                body: JSON.stringify({
+                    code: authCode,
+                    redirect_uri: useAuthRequest.redirectUri,
+                    grant_type: 'authorization_code'
+                }),
+                headers: {
+                  'Authorization': 'Basic ' + base64.encode(useAuthRequest.clientId + ':' + useAuthRequest.clientSecret),
+                  'Content-Type': "application/x-www-form-urlencoded"
+                }, 
+                json: true
+            };
+            const getData = async () => {
+                try{
+                    const apiResponse = await fetch ("https://accounts.spotify.com/api/token", options);
+                    const data = await apiResponse.json();
+                    console.log("ACCESS TOKEN FROM SPOT", data);
+                } catch(error) {
+                    console.error("Error fetching data:", error);
+                }
+            }; 
+            getData();
+            
             navigation.navigate("TabNavigation",{screen:"song_search"});
           const { code } = response.params;
         }
       }, [response]);
+      
 
     return (
         <ImageBackground source={BG} style={styles.homeBG}>

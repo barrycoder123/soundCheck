@@ -26,6 +26,8 @@ const SongSearch = () => {
     // this is toy data of orion sun songs and one other artist to test searching
     // this is toy data so i know im getting good data all the time but for future
     // use a try catch block here 
+    // 'https://api.spotify.com/v1/search?q=intro&type=track'
+    // 'Authorization: Bearer 1POdFZRZbvb...qqillRxMr2z'
     useEffect(() => {
         const getData = async () => {
             const apiResponse = await fetch (
@@ -151,10 +153,12 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         margin: 30,
+        
     },
     album_cov: {
         flex: 1,
-        marginRight: 5
+        marginRight: 5 // increase this
+        // add padding right or on song details padding left
     },
     album: {
         width: 60,
